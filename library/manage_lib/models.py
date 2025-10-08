@@ -12,20 +12,32 @@ class User(models.Model):
     password = models.CharField(max_length=120, null=False)
     is_librarian = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f"{self.username}"
+
 class Book(models.Model):
     book_id = models.CharField(max_length=10, unique=True, primary_key=True)
     title = models.CharField(max_length=100, null=False)
     details = models.TextField()
     categories = models.ManyToManyField('Category', blank=True)
-    is_available = models.BooleanField(default=False)
+    avai_amount = models.IntegerField(null=False)
+    book_img = models.FileField(upload_to="image/", blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.book_id}"
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
     # book_cat = models.ManyToManyField(Book, blank=True)
+    def __str__(self):
+        return f"{self.name}"
 
 class Author(models.Model):
     name = models.CharField(max_length=100)
     book_auth = models.ManyToManyField(Book, blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
 
 class Borrows(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -35,10 +47,15 @@ class Borrows(models.Model):
     return_date = models.DateField(null=True, blank=True)
     
     class BookStatus(models.TextChoices):
-        BORROWING = "BR", _("Borrowing")
-        RETURNED = "RE", _("Returned")
+        AVAILABLE = "A", _("Available")
+        FULL = "F", _("Full")
 
     book_status = models.CharField(
-        max_length=2,
+        max_length=1,
         choices=BookStatus
     )
+
+class Reservation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    reserve_date = models.DateField(auto_now_add=True)

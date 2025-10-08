@@ -1,0 +1,153 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %} add_book {% endblock %}
+
+{% block content %}
+<style>
+  /* ฟอร์มหลัก */
+  form {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 25px 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-family: "Segoe UI", sans-serif;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="file"],
+  textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    margin-bottom: 15px;
+    transition: border-color 0.3s;
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  /* ปุ่ม */
+  button {
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-right: 8px;
+  }
+
+  button[type="reset"] {
+    background-color: #ccc;
+    color: #000;
+  }
+
+  button[type="reset"]:hover {
+    background-color: #b3b3b3;
+  }
+
+  button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+  /* ส่วนอัปโหลดภาพ */
+  #preview {
+    display: none;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+</style>
+<form class="add-book-form" enctype="multipart/form-data" method="post" action="{% url 'lib-add-book' %}">
+  {% csrf_token %}
+  {{ add_book_form.non_field_errors }}
+
+  <div>
+    <div>
+      <label for="{{ add_book_form.book_id.id_for_label }}">Book ID</label>
+      {{ add_book_form.book_id }}
+    </div>
+
+    <div>
+      <label for="{{ add_book_form.title.id_for_label }}">Title</label>
+      {{ add_book_form.title }}
+    </div>
+  </div>
+
+  <div>
+    <div>
+      <label for="{{ add_book_form.details.id_for_label }}">Details</label>
+      {{ add_book_form.details }}
+    </div>
+  </div>
+
+  <div>
+    <div>
+      <label for="{{ add_book_form.avai_amount.id_for_label }}">Available Amount</label>
+      {{ add_book_form.avai_amount }}
+    </div>
+  </div>
+
+
+  <!-- Upload image -->
+  <div>
+    <label>Upload Image</label>
+    <!-- ปุ่มเลือกไฟล์ -->
+    <label for="{{ add_book_form.book_img.id_for_label }}">Choose Image</label>
+    {{ add_book_form.book_img }}
+    <img id="preview" alt="Preview" style="max-height: 200px; display: none;" />
+  </div>
+
+  <div>
+    <button type="reset">Cancel</button>
+    <button type="submit">Create</button>
+  </div>
+</form>
+{% endblock %}
+
+{% block script %}
+<script>
+  const image = document.getElementById('{{ add_book_form.book_img.id_for_label }}');
+  const preview = document.getElementById('preview');
+  image.addEventListener('change', () => {
+    const [file] = image.files;
+    if (file) {
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = "block";
+    }
+  });
+</script>
+{% endblock %}

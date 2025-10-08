@@ -1,45 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIBlib</title>
+{% extends 'layout.html' %}
+{% load static %}
 
-    <style>
-        .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #1e3a8a; /* น้ำเงินเข้ม */
-        padding: 1rem 2rem;
-        color: #fff;
-        }
 
-        .nav-links {
-        list-style: none;
-        display: flex;
-        gap: 1.5rem;
-        }
+{% block title %} PlsBorrowMeKrub {% endblock %}
 
-        .nav-links li a {
-        text-decoration: none;
-        color: #fff;
-        transition: color 0.3s ease;
-        }
+{% block content %}
+    <div class="home-banner">
+        <img src="{% static 'banner1.png' %}" alt="banner" width="1400" height="300">
+    </div>
 
-        .nav-links li a:hover {
-        color: #93c5fd; /* ฟ้าอ่อน */
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div>
-            <ul class="nav-links">
-                <li>Home</li>
-                <li>My Bookshelf</li>
-            </ul>
+    <div class="book-coll">
+        <h3>นิยายรักวัยรุ่น</h3>
+        <p>ช็อคโก้ ช็อคโก้รูน คาเมรอนรูน หัวใจของเธอ ฉันขอรับเอาไว้นะ</p>
+        <div class="book-row">
+            {%for nov in novel_list %}
+            <a href="{% url 'book-details' book_id=nov.book_id %}">
+                <div class="book-ro">
+                    <img  src="{{ nov.book_img.url }}" alt="novel">
+                    <p>{{ nov.title }}</p>
+                </div>
+            </a>
+            {% endfor %}
         </div>
-    </nav>
-</body>
-</html>
+        <p></p>
+    </div>
+
+    <div class="book-coll">
+        <h3>แฟนตาซี</h3>
+        <p>พ่อมดน้อยฟาซอลลา</p>
+        <div class="book-row">
+            {%for fan in fantasy_list %}
+            <a href="{% url 'book-details' book_id=fan.book_id %}">
+                <div class="book-ro">
+                    <img  src="{{ fan.book_img.url }}" alt="fantasy">
+                    <p>{{ fan.title }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="book-coll">
+        <h3>ไซ-ไฟ</h3>
+        <p>ไคจูตัวนั้น ผมจะจัดการมันเอง</p>
+        {%for sci in scifi_list %}
+        <a href="{% url 'book-details' book_id=sci.book_id %}">
+            <div class="book-ro">
+                <img  src="{{ sci.book_img.url }}" alt="sci-fi">
+                <p>{{ sci.title }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <div class="book-coll">
+        <h3>สืบสวน สอบสวน</h3>
+        <p>ยอดนักสืบ ขุโด้ ชินอิจิ</p>
+        {%for thril in thriller_list %}
+        <a href="{% url 'book-details' book_id=thirl.book_id %}">
+            <div class="book-ro">
+                <img  src="{{ thril.book_img.url }}" alt="thriller">
+                <p>{{ thrill.title }}</p>
+            </div>
+        {% endfor %}
+        </a>
+    </div>
+
+    <div class="book-coll">
+        <h3>จิตวิทยา</h3>
+        <p>โอมาเอวา โม ชินเดอิรุ</p>
+        {%for phyco in phycology_list %}
+        <a href="{% url 'book-details' book_id=phyco.book_id %}">
+            <div class="book-ro">
+                <img  src="{{ phyco.book_img.url }}" alt="phycology">
+                <p>{{ phyco.title }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+{% endblock %}

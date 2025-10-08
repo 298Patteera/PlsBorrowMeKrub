@@ -1,0 +1,231 @@
+/* body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+} */
+
+header {
+  background-color: #2c3e50; /* สีเข้ม */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a,
+.nav-links a:visited {
+  color: #ecf0f1;           /* ตัวหนังสือสีอ่อน */
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #1abc9c;           /* hover เป็นสีเขียว */
+}
+
+.home-banner {
+  margin: 30px;
+  display: flex;
+  justify-content: center; /* center horizontally */
+  align-items: center;     /* center vertically *//* or a fixed height */
+}
+
+.home-banner img {
+  height: 300px;
+  width: 1200px;
+}
+
+
+.book-coll {
+    margin: 30px;
+    padding: 20px;
+    border-radius: 30PX;
+    border: 1px solid #93c5fd;
+}
+
+.book-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 คอลัมน์ */
+
+}
+
+.book-ro img{
+  width: 100px;
+  height: 150px;
+}
+
+/* ====== Global Style ====== */
+/* body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+} */
+
+/* ====== Header & Navbar ====== */
+header {
+  background-color: #2c3e50; /* สีเข้ม */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a,
+.nav-links a:visited {
+  color: #ecf0f1;           /* ตัวหนังสือสีอ่อน */
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #1abc9c;           /* hover เป็นสีเขียว */
+}
+
+/* ====== Home Banner ====== */
+.home-banner {
+  margin: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-banner img {
+  height: 300px;
+  width: 1200px;
+}
+
+/* ====== Book Collection ====== */
+.book-coll {
+  margin: 30px;
+  padding: 20px;
+  border-radius: 30px;
+  border: 1px solid #93c5fd;
+}
+
+.book-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.book-row img {
+  width: 100px;
+  height: 150px;
+  border-radius: 10px;
+}
+
+/* ====== Add Book Form ====== */
+form.update-book-form {
+  max-width: 650px;
+  margin: 50px auto;
+  background: #ffffff;
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+form.update-book-form h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+form.update-book-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #34495e;
+}
+
+form.update-book-form input[type="text"],
+form.update-book-form input[type="number"],
+form.update-book-form input[type="file"],
+form.update-book-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+form.update-book-form input:focus,
+form.update-book-form textarea:focus {
+  border-color: #1abc9c;
+  outline: none;
+  box-shadow: 0 0 4px rgba(26, 188, 156, 0.3);
+}
+
+/* ====== Buttons ====== */
+form.update-book-form .btn-container {
+  text-align: right;
+  margin-top: 10px;
+}
+
+form.update-book-form button {
+  padding: 10px 22px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form.update-book-form button[type="reset"] {
+  background-color: #bdc3c7;
+  color: #2c3e50;
+}
+
+form.update-book-form button[type="reset"]:hover {
+  background-color: #95a5a6;
+}
+
+form.update-book-form button[type="submit"] {
+  background-color: #1abc9c;
+  color: #fff;
+  font-weight: 500;
+}
+
+form.update-book-form button[type="submit"]:hover {
+  background-color: #16a085;
+}
+
+/* ====== Image Preview ====== */
+#preview {
+  display: none;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  max-width: 100%;
+  height: auto;
+}

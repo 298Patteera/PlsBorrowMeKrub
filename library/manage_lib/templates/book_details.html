@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+{% block title %} PlsBorrowMeKrub {% endblock %}
+
+{% block content %}
+<img  src="{{ book_list.book_img.url }}" alt="novel">
+{{ book_list.title }}
+
+
+{% endblock %}

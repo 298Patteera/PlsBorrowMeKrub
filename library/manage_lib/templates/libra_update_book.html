@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %} add_book {% endblock %}
+
+{% block content %}
+<form class="update-book-form" enctype="multipart/form-data" method="post" action="{% url 'lib-update-book' book_update_form.book_id %}">
+      
+  {% csrf_token %}
+  {{ book_update_form.non_field_errors }}
+
+  <div>
+    <div>
+      <label for="{{ book_update_form.book_id.id_for_label }}">Book ID</label>
+      {{ book_update_form.book_id }}
+    </div>
+
+    <div>
+      <label for="{{ book_update_form.title.id_for_label }}">Title</label>
+      {{ book_update_form.title }}
+    </div>
+  </div>
+
+  <div>
+    <div>
+      <label for="{{ book_update_form.details.id_for_label }}">Details</label>
+      {{ book_update_form.details }}
+    </div>
+  </div>
+
+  <div>
+    <div>
+      <label for="{{ book_update_form.avai_amount.id_for_label }}">Available Amount</label>
+      {{ book_update_form.avai_amount }}
+    </div>
+  </div>
+
+
+  <!-- Upload image -->
+  <div>
+      <label>Upload Image</label>
+
+      <!-- ปุ่มเลือกไฟล์ -->
+      <label for="{{ book_update_form.book_img.id_for_label}}">Choose Image</label>
+
+      <!-- {# input ถูกซ่อนด้วย class hidden จาก forms.py #} -->
+      {% if book_update.book_img %}
+        <img id="preview" src="{{ book_update_form.book_img.url }}" alt="Preview" style="max-height:200px;" />
+      {% else %}
+        <img id="preview" alt="Preview" style="max-height:200px; display:none;" />
+      {% endif %}
+    </div>
+
+    <div>
+      <button type="reset" >Cancel</button>
+      <button type="submit" >Create</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block script %}
+<script>
+  // ใช้ id เหมือนที่ตั้งกับ label
+  const image = document.getElementById('{{ book_update_form.book_img.id_for_label }}')
+  const preview = document.getElementById('preview')
+  image.addEventListener('change', () => {
+    const [file] = image.files
+    if (file) {
+      preview.src = URL.createObjectURL(file)
+      preview.classList.remove('hidden')
+    }
+  })
+</script>
+{% endblock %}
