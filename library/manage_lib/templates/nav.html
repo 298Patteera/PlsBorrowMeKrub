@@ -1,8 +1,38 @@
 {% load static %}
-<header>
-  <nav class="navbar">
-    <div class="nav-links">
-      <a href="{% url 'home-page' %}">PlsBorrowMeKrub</a>
+<header class="bg-sky-200 shadow-md">
+  <nav class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex-shrink-0">
+      <a href="{% url 'home-page' %}" class="text-2xl font-bold text-sky-700 hover:text-sky-800 transition">
+        PlsBorrowMeKrub
+      </a>
     </div>
+
+
+    <div class="flex gap-4 items-center">
+      <!-- Search Books -->
+      <a href="{% url 'book-search' %}" class="group relative">
+        <img src="{% static 'search.png' %}" alt="Search Books"
+          class="w-12 h-12 sm:w-14 sm:h-14 transition-transform duration-200 group-hover:scale-110">
+      </a>
+
+      {% if perms.manage_lib.add_borrows %}
+        <a href="{% url 'user-bookshelf' %}" class="group relative">
+          <img src="{% static 'bookshelf.png' %}" alt="My BookShelf"
+            class="w-12 h-12 sm:w-14 sm:h-14 transition-transform duration-200 group-hover:scale-110">
+        </a>
+      {% elif perms.manage_lib.add_book %}
+        <a href="{% url 'lib-show-book' %}" class="group relative">
+          <img src="{% static 'bookshelf.png' %}" alt="Library BookShelf"
+            class="w-12 h-12 sm:w-14 sm:h-14 transition-transform duration-200 group-hover:scale-110">
+        </a>
+      {% endif %}
+
+      <a href="{% url 'user-profile' %}" class="group relative">
+        <img src="{% static 'profile.png' %}" alt="profile" class="w-12 h-12 sm:w-14 sm:h-14 opacity-50">
+      </a>
+
+      
+    </div>
+
   </nav>
 </header>

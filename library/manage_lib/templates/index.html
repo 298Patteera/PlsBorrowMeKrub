@@ -1,82 +1,148 @@
 {% extends 'layout.html' %}
 {% load static %}
 
-
 {% block title %} PlsBorrowMeKrub {% endblock %}
 
 {% block content %}
-    <div class="home-banner">
-        <img src="{% static 'banner1.png' %}" alt="banner" width="1400" height="300">
+<div class="min-h-screen bg-gradient-to-b from-sky-10 via-white to-sky-100 py-10">
+
+  <!-- 🌈 Banner -->
+  <div class="relative w-11/12 mx-auto overflow-hidden rounded-3xl shadow-xl mb-12 ring-2 ring-sky-200">
+    <div id="bannerSlider" class="flex transition-transform duration-700 ease-in-out">
+      <img src="{% static 'banner1.png' %}" alt="banner1" class="w-full h-72 object-fit flex-shrink-0" />
+      <img src="{% static 'banner1.png' %}" alt="banner2" class="w-full h-72 object-fit flex-shrink-0" />
+      <img src="{% static 'banner1.png' %}" alt="banner3" class="w-full h-72 object-fit flex-shrink-0" />
     </div>
 
-    <div class="book-coll">
-        <h3>นิยายรักวัยรุ่น</h3>
-        <p>ช็อคโก้ ช็อคโก้รูน คาเมรอนรูน หัวใจของเธอ ฉันขอรับเอาไว้นะ</p>
-        <div class="book-row">
-            {%for nov in novel_list %}
-            <a href="{% url 'book-details' book_id=nov.book_id %}">
-                <div class="book-ro">
-                    <img  src="{{ nov.book_img.url }}" alt="novel">
-                    <p>{{ nov.title }}</p>
-                </div>
-            </a>
-            {% endfor %}
-        </div>
-        <p></p>
+    <!-- จุดเลื่อน -->
+    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+      <div class="w-3 h-3 bg-sky-300 rounded-full" id="dot0"></div>
+      <div class="w-3 h-3 bg-sky-100 rounded-full" id="dot1"></div>
+      <div class="w-3 h-3 bg-sky-100 rounded-full" id="dot2"></div>
     </div>
+  </div>
 
-    <div class="book-coll">
-        <h3>แฟนตาซี</h3>
-        <p>พ่อมดน้อยฟาซอลลา</p>
-        <div class="book-row">
-            {%for fan in fantasy_list %}
-            <a href="{% url 'book-details' book_id=fan.book_id %}">
-                <div class="book-ro">
-                    <img  src="{{ fan.book_img.url }}" alt="fantasy">
-                    <p>{{ fan.title }}</p>
-                </div>
-            </a>
-            {% endfor %}
-        </div>
+  <script>
+    let index = 0;
+    const slider = document.getElementById("bannerSlider");
+    const dots = [document.getElementById("dot0"), document.getElementById("dot1"), document.getElementById("dot2")];
+    const total = 3;
+
+    function showSlide() {
+      slider.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("bg-sky-400", i === index);
+        dot.classList.toggle("bg-sky-100", i !== index);
+      });
+      index = (index + 1) % total;
+    }
+    setInterval(showSlide, 3000);
+  </script>
+
+  <!-- 📚 Novel -->
+  <div class="book-coll text-center bg-white/70 backdrop-blur-md rounded-3xl shadow-md p-8 w-11/12 mx-auto mb-12 ring-1 ring-sky-100 hover:ring-sky-300 transition">
+    <h3 class="text-3xl font-bold text-sky-700 mb-2">นิยายรักวัยรุ่น</h3>
+    <p class="text-sky-500 mb-6">ช็อคโก้ ช็อคโก้รูน คาเมรอนรูน หัวใจของเธอ ฉันขอรับเอาไว้นะ</p>
+    <div class="book-row grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-items-center">
+      {% for nov in novel_list %}
+      <a href="{% url 'book-details' book_id=nov.book_id %}"
+        class="bg-gradient-to-b from-sky-50 to-white hover:from-sky-100 hover:to-sky-50 rounded-2xl shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 p-3 w-44">
+        {% if nov.book_img %}
+          <img src="{{ nov.book_img.url }}" alt="{{ nov.title }}"
+            class="w-full h-56 object-cover rounded-xl mx-auto border-2 border-sky-100 hover:border-sky-300 transition" />
+        {% else %}
+          <img src="{% static 'no-image.png' %}" alt="no image"
+            class="w-full h-56 object-cover rounded-xl mx-auto border-2 border-sky-100 hover:border-sky-300 transition" />
+        {% endif %}
+        <p class="mt-3 font-semibold text-sky-600 text-sm">{{ nov.title }}</p>
+      </a>
+      {% endfor %}
     </div>
+  </div>
 
-    <div class="book-coll">
-        <h3>ไซ-ไฟ</h3>
-        <p>ไคจูตัวนั้น ผมจะจัดการมันเอง</p>
-        {%for sci in scifi_list %}
-        <a href="{% url 'book-details' book_id=sci.book_id %}">
-            <div class="book-ro">
-                <img  src="{{ sci.book_img.url }}" alt="sci-fi">
-                <p>{{ sci.title }}</p>
-            </div>
-        </a>
-        {% endfor %}
+  <!-- 🧙‍♂️ Fantasy -->
+  <div class="book-coll text-center bg-white/70 backdrop-blur-md rounded-3xl shadow-md p-8 w-11/12 mx-auto mb-12 ring-1 ring-sky-100 hover:ring-sky-300 transition">
+    <h3 class="text-3xl font-bold text-sky-700 mb-2">แฟนตาซี</h3>
+    <p class="text-sky-500 mb-6">พ่อมดน้อยฟาซอลลา</p>
+    <div class="book-row grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-items-center">
+      {% for fan in fantasy_list %}
+      <a href="{% url 'book-details' book_id=fan.book_id %}"
+        class="bg-gradient-to-b from-sky-50 to-white hover:from-sky-100 hover:to-sky-50 rounded-2xl shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 p-3 w-44">
+        {% if fan.book_img %}
+          <img src="{{ fan.book_img.url }}" alt="{{ fan.title }}"
+            class="w-full h-56 object-cover rounded-xl mx-auto border-2 border-sky-100 hover:border-sky-300 transition" />
+        {% else %}
+          <img src="{% static 'no-image.png' %}" alt="no image"
+            class="w-full h-56 object-cover rounded-xl mx-auto border-2 border-sky-100 hover:border-sky-300 transition" />
+        {% endif %}
+        <p class="mt-3 font-semibold text-sky-600 text-sm">{{ fan.title }}</p>
+      </a>
+      {% endfor %}
     </div>
+  </div>
 
-    <div class="book-coll">
-        <h3>สืบสวน สอบสวน</h3>
-        <p>ยอดนักสืบ ขุโด้ ชินอิจิ</p>
-        {%for thril in thriller_list %}
-        <a href="{% url 'book-details' book_id=thirl.book_id %}">
-            <div class="book-ro">
-                <img  src="{{ thril.book_img.url }}" alt="thriller">
-                <p>{{ thrill.title }}</p>
-            </div>
-        {% endfor %}
-        </a>
+  <!-- 🚀 Sci-Fi -->
+  <div class="book-coll text-center bg-white/70 backdrop-blur-md rounded-3xl shadow-md p-8 w-11/12 mx-auto mb-12 ring-1 ring-sky-100 hover:ring-sky-300 transition">
+    <h3 class="text-3xl font-bold text-sky-700 mb-2">ไซ-ไฟ</h3>
+    <p class="text-sky-500 mb-6">ไคจูตัวนั้น ผมจะจัดการมันเอง</p>
+    <div class="book-row grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-items-center">
+      {% for sci in scifi_list %}
+      <a href="{% url 'book-details' book_id=sci.book_id %}"
+        class="bg-gradient-to-b from-sky-50 to-white hover:from-sky-100 hover:to-sky-50 rounded-2xl shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 p-3 w-44">
+        {% if sci.book_img %}
+          <img src="{{ sci.book_img.url }}" alt="{{ sci.title }}"
+            class="w-full h-56 object-cover rounded-xl mx-auto border-2 border-sky-100 hover:border-sky-300 transition" />
+        {% else %}
+          <img src="{% static 'no-image.png' %}" alt="no image"
+            class="w-full h-56 object-cover rounded-xl mx-auto border-2 border-sky-100 hover:border-sky-300 transition" />
+        {% endif %}
+        <p class="mt-3 font-semibold text-sky-600 text-sm">{{ sci.title }}</p>
+      </a>
+      {% endfor %}
     </div>
+  </div>
 
-    <div class="book-coll">
-        <h3>จิตวิทยา</h3>
-        <p>โอมาเอวา โม ชินเดอิรุ</p>
-        {%for phyco in phycology_list %}
-        <a href="{% url 'book-details' book_id=phyco.book_id %}">
-            <div class="book-ro">
-                <img  src="{{ phyco.book_img.url }}" alt="phycology">
-                <p>{{ phyco.title }}</p>
-            </div>
-        </a>
-        {% endfor %}
+  <!-- 🔍 Thriller -->
+  <div class="book-coll text-center bg-white/70 backdrop-blur-md rounded-3xl shadow-md p-8 w-11/12 mx-auto mb-12 ring-1 ring-sky-100 hover:ring-sky-300 transition">
+    <h3 class="text-3xl font-bold text-sky-700 mb-2">สืบสวน สอบสวน</h3>
+    <p class="text-sky-500 mb-6">ยอดนักสืบ ขุโด้ ชินอิจิ</p>
+    <div class="book-row grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-items-center">
+      {% for thril in thriller_list %}
+      <a href="{% url 'book-details' book_id=thril.book_id %}"
+        class="bg-gradient-to-b from-sky-50 to-white hover:from-sky-100 hover:to-sky-50 rounded-2xl shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 p-3 w-44">
+        {% if thril.book_img %}
+          <img src="{{ thril.book_img.url }}" alt="{{ thril.title }}"
+            class="w-full h-56 object-cover rounded-xl mx-auto border-2 border-sky-100 hover:border-sky-300 transition" />
+        {% else %}
+          <img src="{% static 'no-image.png' %}" alt="no image"
+            class="w-full h-56 object-cover rounded-xl mx-auto border-2 border-sky-100 hover:border-sky-300 transition" />
+        {% endif %}
+        <p class="mt-3 font-semibold text-sky-600 text-sm">{{ thril.title }}</p>
+      </a>
+      {% endfor %}
     </div>
+  </div>
 
+  <!-- 🧠 Psychology -->
+  <div class="book-coll text-center bg-white/70 backdrop-blur-md rounded-3xl shadow-md p-8 w-11/12 mx-auto mb-12 ring-1 ring-sky-100 hover:ring-sky-300 transition">
+    <h3 class="text-3xl font-bold text-sky-700 mb-2">จิตวิทยา</h3>
+    <p class="text-sky-500 mb-6">โอมาเอวา โม ชินเดอิรุ</p>
+    <div class="book-row grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-items-center">
+      {% for phyco in phycology_list %}
+      <a href="{% url 'book-details' book_id=phyco.book_id %}"
+        class="bg-gradient-to-b from-sky-50 to-white hover:from-sky-100 hover:to-sky-50 rounded-2xl shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 p-3 w-44">
+        {% if phyco.book_img %}
+          <img src="{{ phyco.book_img.url }}" alt="{{ phyco.title }}"
+            class="w-full h-56 object-cover rounded-xl mx-auto border-2 border-sky-100 hover:border-sky-300 transition" />
+        {% else %}
+          <img src="{% static 'no-image.png' %}" alt="no image"
+            class="w-full h-56 object-cover rounded-xl mx-auto border-2 border-sky-100 hover:border-sky-300 transition" />
+        {% endif %}
+        <p class="mt-3 font-semibold text-sky-600 text-sm">{{ phyco.title }}</p>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
 {% endblock %}

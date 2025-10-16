@@ -1,74 +1,193 @@
 {% extends 'layout.html' %}
 {% load static %}
 
-{% block title %} add_book {% endblock %}
+{% block title %} Update Book {% endblock %}
 
 {% block content %}
-<form class="update-book-form" enctype="multipart/form-data" method="post" action="{% url 'lib-update-book' book_update_form.book_id %}">
-      
+<style>
+  form {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 25px 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-family: "Segoe UI", sans-serif;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="file"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    margin-bottom: 15px;
+    transition: border-color 0.3s;
+    background-color: #fff;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-right: 8px;
+  }
+
+  button[type="reset"] {
+    background-color: #ccc;
+    color: #000;
+  }
+
+  button[type="reset"]:hover {
+    background-color: #b3b3b3;
+  }
+
+  button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+  #preview {
+    display: none;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .field-row {
+    display: flex;
+    gap: 20px;
+  }
+
+  .field-col {
+    flex: 1;
+  }
+</style>
+
+<form class="update-book-form" enctype="multipart/form-data" method="post" action="{% url 'lib-update-book' book_update_form.book_id.value %}">
   {% csrf_token %}
+  <h2>Update Book</h2>
   {{ book_update_form.non_field_errors }}
 
-  <div>
-    <div>
-      <label for="{{ book_update_form.book_id.id_for_label }}">Book ID</label>
-      {{ book_update_form.book_id }}
+  <div class="form-group">
+    <label for="{{ book_update_form.book_id.id_for_label }}">Book ID</label>
+    {{ book_update_form.book_id }}
+  </div>
+
+  <div class="form-group">
+    <label for="{{ book_update_form.title.id_for_label }}">Title</label>
+    {{ book_update_form.title }}
+  </div>
+
+  <!-- 🧑‍💼 Author + Category side by side -->
+  <div class="field-row">
+    <div class="field-col">
+      <label for="{{ book_update_form.authors.id_for_label }}">Authors</label>
+      {{ book_update_form.authors }}
+      <small style="color:#666;">(You can select multiple authors)</small>
     </div>
 
-    <div>
-      <label for="{{ book_update_form.title.id_for_label }}">Title</label>
-      {{ book_update_form.title }}
+    <div class="field-col">
+      <label for="{{ book_update_form.category.id_for_label }}">Category</label>
+      {{ book_update_form.category }}
+      <small style="color:#666;">(Select one category)</small>
     </div>
   </div>
 
-  <div>
-    <div>
-      <label for="{{ book_update_form.details.id_for_label }}">Details</label>
-      {{ book_update_form.details }}
-    </div>
+  <div class="form-group">
+    <label for="{{ book_update_form.details.id_for_label }}">Details</label>
+    {{ book_update_form.details }}
   </div>
 
-  <div>
-    <div>
-      <label for="{{ book_update_form.avai_amount.id_for_label }}">Available Amount</label>
-      {{ book_update_form.avai_amount }}
-    </div>
+  <div class="form-group">
+    <label for="{{ book_update_form.avai_amount.id_for_label }}">Available Amount</label>
+    {{ book_update_form.avai_amount }}
   </div>
 
+  <div class="form-group">
+    <label for="{{ book_update_form.book_img.id_for_label }}">Book Image</label>
+    {{ book_update_form.book_img }}
+    {% if book_update_form.instance.book_img %}
+      <img id="preview" src="{{ book_update_form.instance.book_img.url }}" alt="Preview" />
+    {% else %}
+      <img id="preview" alt="Preview" />
+    {% endif %}
+  </div>
 
-  <!-- Upload image -->
-  <div>
-      <label>Upload Image</label>
-
-      <!-- ปุ่มเลือกไฟล์ -->
-      <label for="{{ book_update_form.book_img.id_for_label}}">Choose Image</label>
-
-      <!-- {# input ถูกซ่อนด้วย class hidden จาก forms.py #} -->
-      {% if book_update.book_img %}
-        <img id="preview" src="{{ book_update_form.book_img.url }}" alt="Preview" style="max-height:200px;" />
-      {% else %}
-        <img id="preview" alt="Preview" style="max-height:200px; display:none;" />
-      {% endif %}
-    </div>
-
-    <div>
-      <button type="reset" >Cancel</button>
-      <button type="submit" >Create</button>
-    </div>
+  <div style="text-align: center;">
+    <button type="reset">Cancel</button>
+    <button type="submit">Update</button>
+  </div>
 </form>
 {% endblock %}
 
 {% block script %}
 <script>
-  // ใช้ id เหมือนที่ตั้งกับ label
-  const image = document.getElementById('{{ book_update_form.book_img.id_for_label }}')
-  const preview = document.getElementById('preview')
-  image.addEventListener('change', () => {
-    const [file] = image.files
-    if (file) {
-      preview.src = URL.createObjectURL(file)
-      preview.classList.remove('hidden')
+  document.addEventListener('DOMContentLoaded', function() {
+    const imageInput = document.getElementById('{{ book_update_form.book_img.id_for_label }}');
+    const preview = document.getElementById('preview');
+    const resetBtn = document.querySelector('button[type="reset"]');
+
+    if (imageInput && preview) {
+      imageInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+          preview.src = URL.createObjectURL(file);
+          preview.style.display = "block";
+        } else {
+          preview.style.display = "none";
+        }
+      });
     }
-  })
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function() {
+        preview.src = "";
+        preview.style.display = "none";
+      });
+    }
+
+    // แสดงรูปตอนโหลดถ้ามีอยู่แล้ว
+    if (preview.src && preview.src !== window.location.href) {
+      preview.style.display = "block";
+    }
+  });
 </script>
 {% endblock %}

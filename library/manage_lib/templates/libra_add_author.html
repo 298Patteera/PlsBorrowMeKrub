@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Add Author{% endblock %}
+
+{% block content %}
+<style>
+  form {
+    max-width: 500px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 25px 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-family: "Segoe UI", sans-serif;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 15px;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  button[type="reset"] {
+    background-color: #ccc;
+  }
+
+  button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<form method="post" action="{% url 'lib-add-author' %}">
+  {% csrf_token %}
+  <h2>Add Author</h2>
+  {{ form.non_field_errors }}
+  <div>
+    <label for="{{ form.name.id_for_label }}">Author Name</label>
+    {{ form.name }}
+  </div>
+  <div style="text-align: center;">
+    <button type="reset">Cancel</button>
+    <button type="submit">Add</button>
+  </div>
+</form>
+{% endblock %}

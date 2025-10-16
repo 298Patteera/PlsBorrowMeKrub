@@ -1,10 +1,60 @@
 {% extends 'layout.html' %}
 {% load static %}
 
-{% block title %} BookShelf {% endblock %}
+{% block title %}Profile{% endblock %}
 
 {% block content %}
+<div class="min-h-screen bg-sky-50 flex flex-col items-center py-12">
+  <div class="w-full max-w-2xl bg-white rounded-3xl shadow-lg p-8 ring-1 ring-sky-100">
+    <h2 class="text-4xl font-bold text-sky-600 text-center mb-8">
+      {{ user.username }}’s Profile
+    </h2>
 
+    <div class="space-y-4">
+      <div class="p-4 bg-sky-100 rounded-xl shadow-sm hover:bg-sky-200 transition">
+        <p class="text-sky-700 font-semibold">Username</p>
+        <p class="text-gray-700">{{ user.username }}</p>
+      </div>
 
+      <div class="p-4 bg-sky-100 rounded-xl shadow-sm hover:bg-sky-200 transition">
+        <p class="text-sky-700 font-semibold">First Name</p>
+        <p class="text-gray-700">{{ user.first_name }}</p>
+      </div>
 
+      <div class="p-4 bg-sky-100 rounded-xl shadow-sm hover:bg-sky-200 transition">
+        <p class="text-sky-700 font-semibold">Last Name</p>
+        <p class="text-gray-700">{{ user.last_name }}</p>
+      </div>
+
+      <div class="p-4 bg-sky-100 rounded-xl shadow-sm hover:bg-sky-200 transition">
+        <p class="text-sky-700 font-semibold">Email</p>
+        <p class="text-gray-700">{{ user.email }}</p>
+      </div>
+
+      <div class="p-4 bg-sky-100 rounded-xl shadow-sm hover:bg-sky-200 transition">
+        <p class="text-sky-700 font-semibold">Joined</p>
+        <p class="text-gray-700">{{ user.date_joined|date:"Y-m-d" }}</p>
+      </div>
+    </div>
+
+    <div class="flex justify-between items-center mt-10">
+
+      {% if perms.manage_lib.add_borrows %}
+        <a href="{% url 'user-bookshelf' %}" 
+            class="px-6 py-2 bg-sky-500 text-white font-semibold rounded-full hover:bg-sky-600 transition">
+            Go to My Bookshelf
+        </a>
+      {% elif perms.manage_lib.add_book %}
+        <a href="{% url 'lib-show-book' %}" 
+            class="px-6 py-2 bg-sky-500 text-white font-semibold rounded-full hover:bg-sky-600 transition">
+            Go to All Book Page
+        </a>
+      {% endif %}
+
+      <a href="{% url 'logout' %}"  class="px-6 py-2 bg-white text-sky-600 border border-sky-400 rounded-full font-semibold hover:bg-sky-100 transition">
+        Logout
+      </a>
+    </div>
+  </div>
+</div>
 {% endblock %}
